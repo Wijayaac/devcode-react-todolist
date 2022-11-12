@@ -2,7 +2,7 @@ import React from "react";
 import { CardActivity } from "../Card";
 
 const ActivityList = (props) => {
-  const { activities, setModalShown, deleteActivity, modalShown } = props;
+  const { activities, deleteActivity } = props;
   return (
     <div className='activity'>
       <div className='activity-wrapper row'>
@@ -14,8 +14,6 @@ const ActivityList = (props) => {
               <CardActivity
                 activity={activity}
                 deleteActivity={deleteActivity}
-                setModalShown={setModalShown}
-                modalShown={modalShown}
               />
             </div>
           ))

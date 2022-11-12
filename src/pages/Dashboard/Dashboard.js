@@ -25,6 +25,7 @@ const Dashboard = () => {
       try {
         let { data } = await getActivities();
         setActivities(data);
+        document.title = `To Do List - Dashboard`;
       } catch (error) {
         toast.error(error.message);
       } finally {
