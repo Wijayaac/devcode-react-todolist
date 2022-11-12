@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+
 import { Activities } from "../../components/Activity";
 import { Spinner } from "../../components/Loading";
+import AlertDeleteModal from "../../components/Modal/AlertDeleteModal";
 import DeleteModal from "../../components/Modal/DeleteModal";
 import {
   getActivities,
@@ -14,9 +16,9 @@ const Dashboard = () => {
   const [activities, setActivities] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [modalShown, setModalShown] = useState(false);
+  const [alert, setAlert] = useState(false);
   const [confirmation, setConfirmation] = useState(false);
   const [activity, setActivity] = useState({});
-  const [id, setId] = useState(0);
 
   useEffect(() => {
     const getData = async () => {
@@ -36,8 +38,12 @@ const Dashboard = () => {
     setIsLoading(true);
     try {
       await deleteActivity(id);
+      setTimeout(() => {
+        setAlert(false);
+      }, 1500);
       toast.success("Activity has been deleted");
       setConfirmation(!confirmation);
+      setAlert(!alert);
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -49,7 +55,7 @@ const Dashboard = () => {
     setIsLoading(true);
     try {
       await addActivity();
-      toast.success("New Activity created");
+      toast.success("Activity berhasil ditambah");
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -58,7 +64,6 @@ const Dashboard = () => {
   };
 
   const getActivityId = async (id) => {
-    setId(id);
     setModalShown(!modalShown);
 
     try {
@@ -106,6 +111,7 @@ const Dashboard = () => {
         activity={activity}
         handleDelete={handleDelete}
       />
+      <AlertDeleteModal alert={alert} setAlert={setAlert} />
     </div>
   );
 };
