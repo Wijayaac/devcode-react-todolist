@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Root from "./pages/Root";
+import ActivityDetail from "./pages/Activity/ActivityDetail";
 
 function App() {
   setDefaultOptions({ locale: id });
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Root />}>
             <Route index element={<Dashboard />} />
+            <Route path='/activity/:id' element={<ActivityDetail />} />
           </Route>
         </Routes>
       </Router>

@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const API_URL = process.env.REACT_APP_API_URL;
-const EMAIL = process.env.REACT_APP_EMAIL;
+import { API_URL, EMAIL } from "../../utils/constant";
 
 const getActivities = async () => {
   let { data } = await axios.get(`${API_URL}/activity-groups?email=${EMAIL}`);
@@ -18,4 +17,14 @@ const addActivity = async () => {
   return data;
 };
 
-export { getActivities, addActivity };
+const deleteActivity = async (id) => {
+  let data = await axios.delete(`${API_URL}/activity-groups/${id}`);
+  return data;
+};
+
+const getActivity = async (id) => {
+  let data = await axios.get(`${API_URL}/activity-groups/${id}`);
+  return data;
+};
+
+export { getActivities, getActivity, addActivity, deleteActivity };

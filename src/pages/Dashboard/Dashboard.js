@@ -2,11 +2,22 @@ import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { Activities } from "../../components/Activity";
 import { Spinner } from "../../components/Loading";
-import { getActivities, addActivity } from "./Dashboard.handler";
+import DeleteModal from "../../components/Modal/DeleteModal";
+import {
+  getActivities,
+  addActivity,
+  deleteActivity,
+  getActivity,
+} from "./Dashboard.handler";
 
 const Dashboard = () => {
   const [activities, setActivities] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [modalShown, setModalShown] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
+  const [activity, setActivity] = useState({});
+  const [id, setId] = useState(0);
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -21,6 +32,19 @@ const Dashboard = () => {
     getData();
   }, [isLoading]);
 
+  const handleDelete = async (id) => {
+    setIsLoading(true);
+    try {
+      await deleteActivity(id);
+      toast.success("Activity has been deleted");
+      setConfirmation(!confirmation);
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const addActivities = async () => {
     setIsLoading(true);
     try {
@@ -30,6 +54,18 @@ const Dashboard = () => {
       toast.error(error.message);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const getActivityId = async (id) => {
+    setId(id);
+    setModalShown(!modalShown);
+
+    try {
+      let { data } = await getActivity(id);
+      setActivity(data);
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 
@@ -58,7 +94,18 @@ const Dashboard = () => {
           Tambah
         </button>
       </div>
-      <Activities activities={activities} />
+      <Activities
+        activities={activities}
+        setModalShown={setModalShown}
+        modalShown={modalShown}
+        deleteActivity={getActivityId}
+      />
+      <DeleteModal
+        modalShown={modalShown}
+        setModalShown={setModalShown}
+        activity={activity}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 };
