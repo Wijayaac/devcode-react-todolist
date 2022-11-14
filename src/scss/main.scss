@@ -225,3 +225,35 @@
         }
     }
 }
+
+.todolist {
+    &-priority {
+
+        &.very-high {
+            background-color: #ED4C5C;
+        }
+
+        &.normal {
+            background-color: #00A790;
+        }
+
+        &.low {
+            background-color: #428BC1;
+        }
+
+        &.high {
+            background-color: #428BC1;
+        }
+
+        &.very-low {
+            background-color: #8942C1;
+        }
+    }
+
+    p {
+        &.checked {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+    }
+}

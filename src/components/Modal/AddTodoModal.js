@@ -73,8 +73,8 @@ const AddTodoModal = (props) => {
   } = useForm({ mode: "onChange" });
 
   const onSubmit = (data) => {
-    // handleSubmitTodo(data);
-    console.log(data);
+    handleSubmitTodo(data);
+    // console.log(data);
   };
   return (
     <Modal

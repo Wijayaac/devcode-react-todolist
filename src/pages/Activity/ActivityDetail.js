@@ -10,6 +10,8 @@ import {
   getActivity,
   editTitleActivity,
   getAllTodo,
+  addTodoItem,
+  checkTodo,
 } from "./ActivityDetail.handler";
 import { TodoList } from "../../components/Todo";
 import AddTodoModal from "../../components/Modal/AddTodoModal";
@@ -25,7 +27,7 @@ const ActivityDetail = () => {
     const getActivityDetail = async () => {
       try {
         let data = await getActivity(id);
-        document.title = `To Do List - Detail ${activity.title}`;
+        document.title = `To Do List - Detail ${data.title}`;
         setActivity(data);
       } catch (error) {
         toast.error(error.message);
@@ -59,10 +61,30 @@ const ActivityDetail = () => {
     setModalAdd(!modalAdd);
     return;
   };
-  const handleSubmitTodo = () => {};
+  const handleSubmitTodo = async (data) => {
+    try {
+      let response = await addTodoItem(data, id);
+      console.log(response);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+  const handleCheckTodo = async (id, isActive) => {
+    try {
+      let { data } = await checkTodo(id, isActive);
+      toast.success(
+        `${data.title} ${
+          data.is_active == 0 ? "terselesaikan" : "belum selesai"
+        }`
+      );
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   const setTodoId = async (id) => {
     try {
+      console.log(id);
     } catch (error) {
       toast.error(error.message);
     }
@@ -76,8 +98,11 @@ const ActivityDetail = () => {
         handleAddTodo={handleAddTodo}
         handleEditTitle={handleEditTitle}
       />
-
-      <TodoList todolists={todolist} setTodoId={setTodoId} />
+      <TodoList
+        todolists={todolist}
+        setTodoId={setTodoId}
+        handleCheckTodo={handleCheckTodo}
+      />
       <AddTodoModal
         modalAdd={modalAdd}
         setModalAdd={setModalAdd}
