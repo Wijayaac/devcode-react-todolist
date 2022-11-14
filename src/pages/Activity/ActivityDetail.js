@@ -74,7 +74,7 @@ const ActivityDetail = () => {
       let { data } = await checkTodo(id, isActive);
       toast.success(
         `${data.title} ${
-          data.is_active == 0 ? "terselesaikan" : "belum selesai"
+          data.is_active === 0 ? "terselesaikan" : "belum selesai"
         }`
       );
     } catch (error) {
