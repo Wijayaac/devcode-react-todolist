@@ -4,7 +4,7 @@ import Modal from "./ModalRoot";
 import style from "./AlertDeleteModal.module.scss";
 
 const AlertDeleteModal = (props) => {
-  const { alert, setAlert } = props;
+  const { alert, setAlert, item } = props;
   return (
     <Modal
       shown={alert}
@@ -18,7 +18,9 @@ const AlertDeleteModal = (props) => {
               <img src='/icons/info.svg' alt='' />
             </span>
           </div>
-          <p className={style.title}>Activity berhasil dihapus</p>
+          <p className={style.title}>
+            {item.priority ? "List Item" : "Activity"} berhasil dihapus
+          </p>
         </div>
       </div>
     </Modal>

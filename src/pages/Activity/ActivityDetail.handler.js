@@ -18,6 +18,11 @@ const getAllTodo = async (id) => {
   return data;
 };
 
+const getTodoItem = async (id) => {
+  let { data } = await axios.get(`${API_URL}/todo-items/${id}`);
+  return data;
+};
+
 const editTitleActivity = async (id, title) => {
   const body = {
     title,
@@ -35,6 +40,15 @@ const addTodoItem = async (data, id) => {
 
   return await axios.post(`${API_URL}/todo-items`, body, headers);
 };
+
+const updateTodoItem = async (data, id) => {
+  const body = {
+    title: data.title,
+    priority: data.priority,
+  };
+  return await axios.patch(`${API_URL}/todo-items/${id}`, body, headers);
+};
+
 const checkTodo = async (id, isActive) => {
   const body = {
     is_active: isActive ? 1 : 0,
@@ -43,4 +57,18 @@ const checkTodo = async (id, isActive) => {
   return await axios.patch(`${API_URL}/todo-items/${id}`, body, headers);
 };
 
-export { getActivity, editTitleActivity, getAllTodo, addTodoItem, checkTodo };
+const deleteTodo = async (id) => {
+  let data = await axios.delete(`${API_URL}/todo-items/${id}`);
+  return data;
+};
+
+export {
+  getActivity,
+  editTitleActivity,
+  getAllTodo,
+  addTodoItem,
+  checkTodo,
+  getTodoItem,
+  deleteTodo,
+  updateTodoItem,
+};

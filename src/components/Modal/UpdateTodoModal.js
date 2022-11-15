@@ -6,6 +6,8 @@ import { Controller, useForm } from "react-hook-form";
 import Modal from "./ModalRoot";
 
 import style from "./AddTodoModal.module.scss";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const options = [
   { value: "very-high", label: "Very High", color: "#ED4C5C" },
@@ -62,25 +64,34 @@ const colourStyles = {
   singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
 };
 
-const AddTodoModal = (props) => {
-  const { modalAdd, setModalAdd, handleSubmitTodo } = props;
+const UpdateTodoModal = (props) => {
+  const { modalUpdate, setModalUpdate, handleUpdateTodo, todo } = props;
+  const [defaultValue, setDefaultValue] = useState(null);
+
+  useEffect(() => {
+    setDefaultValue(options.find((element) => element.value === todo.priority));
+    setValue("title", todo.title);
+    setValue("priority", todo.priority);
+  }, [todo]);
+
   const {
     register,
     handleSubmit,
     formState: { errors, isDirty, isValid },
     reset,
+    setValue,
     control,
   } = useForm({ mode: "onChange" });
 
   const onSubmit = (data) => {
-    handleSubmitTodo(data);
+    handleUpdateTodo(data);
     reset();
   };
   return (
     <Modal
-      shown={modalAdd}
+      shown={modalUpdate}
       close={() => {
-        setModalAdd(false);
+        setModalUpdate(false);
         reset();
       }}>
       <div className={style.wrapper}>
@@ -99,8 +110,9 @@ const AddTodoModal = (props) => {
               <input
                 className='form-control'
                 type='text'
+                defaultValue={todo.title}
                 id='todo-title'
-                {...register("title", { required: "Field ini wajib diisi" })}
+                {...register("title")}
                 placeholder='Tambahkan nama list item'
               />
               {errors.title ? <p>{errors.title.message}</p> : ""}
@@ -109,13 +121,17 @@ const AddTodoModal = (props) => {
               <label htmlFor='todo-title'>PRIORITY</label>
               <Controller
                 control={control}
-                defaultValue={options[0].value}
                 name='priority'
+                defaultValue={defaultValue?.value}
                 render={({ field: { onChange, value, ref } }) => (
                   <Select
                     inputRef={ref}
-                    value={options.filter((c) => value.includes(c.value))}
-                    onChange={(val) => onChange(val.value)}
+                    value={defaultValue}
+                    onChange={(val) => {
+                      onChange(val.value);
+                      setDefaultValue(val);
+                    }}
+                    defaultValue={defaultValue?.value}
                     classNamePrefix='priority'
                     styles={colourStyles}
                     options={options}
@@ -139,4 +155,4 @@ const AddTodoModal = (props) => {
   );
 };
 
-export default AddTodoModal;
+export default UpdateTodoModal;

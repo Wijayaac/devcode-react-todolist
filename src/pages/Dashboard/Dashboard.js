@@ -109,10 +109,10 @@ const Dashboard = () => {
       <DeleteModal
         modalShown={modalShown}
         setModalShown={setModalShown}
-        activity={activity}
+        item={activity}
         handleDelete={handleDelete}
       />
-      <AlertDeleteModal alert={alert} setAlert={setAlert} />
+      <AlertDeleteModal alert={alert} setAlert={setAlert} item={activity} />
     </div>
   );
 };

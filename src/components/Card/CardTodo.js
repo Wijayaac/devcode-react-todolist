@@ -20,8 +20,8 @@ const CardTodo = (props) => {
     }
   }, [isChecked]);
 
-  const handleSetId = (id) => {
-    setTodoId(id);
+  const handleSetId = (id, action) => {
+    setTodoId(id, action);
   };
 
   const onChecked = (id) => {
@@ -48,14 +48,18 @@ const CardTodo = (props) => {
             <p className={`${style.title}`} ref={todoTitle}>
               {todo.title ? todo.title : "Default Title"}
             </p>
-            <button className={style.edit} onClick={() => handleSetId(todo.id)}>
+            <button
+              className={style.edit}
+              onClick={() => handleSetId(todo.id, "edit")}>
               <span>
                 <img src='/icons/edit.svg' alt='' />
               </span>
             </button>
           </div>
         </div>
-        <button className={style.delete} onClick={() => handleSetId(todo.id)}>
+        <button
+          className={style.delete}
+          onClick={() => handleSetId(todo.id, "delete")}>
           <span>
             <img src='/icons/trash.svg' alt='' />
           </span>

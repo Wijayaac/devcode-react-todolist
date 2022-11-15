@@ -4,9 +4,9 @@ import Modal from "./ModalRoot";
 import style from "./DeleteModal.module.scss";
 
 const DeleteModal = (props) => {
-  const { modalShown, setModalShown, handleDelete, activity } = props;
+  const { modalShown, setModalShown, handleDelete, item } = props;
   const onDelete = () => {
-    handleDelete(activity.id);
+    handleDelete(item.id);
     setModalShown(!modalShown);
   };
   return (
@@ -23,10 +23,9 @@ const DeleteModal = (props) => {
             </span>
           </div>
           <p className={style.title}>
-            Apakah anda yakin menghapus activity <br />
-            <span>
-              “{activity.title ? activity.title : "Default Activity"}”?
-            </span>
+            Apakah anda yakin menghapus
+            {item.priority ? "List Item" : "activity"} <br />
+            <span>“{item.title ? item.title : "Default item"}”?</span>
           </p>
           <div className={style.action}>
             <button
